@@ -1,0 +1,3 @@
+resources:
+  - 01-config.yaml
+  - 02-ironfish-node-offline.yaml

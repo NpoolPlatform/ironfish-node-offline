@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ironfish-node-offline
+  namespace: kube-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ironfish-node-offline
+  template:
+    metadata:
+      labels:
+        app: ironfish-node-offline
+    spec:
+      containers:
+        - name: ironfish-node-offline
+          image: ghcr.io/iron-fish/ironfish:latest
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: service-config
+              mountPath: /root/.ironfish/config.json
+              subPath: config.json
+              readOnly: false
+      volumes:
+        - name: service-config
+          configMap:
+            name: ironfish-node-offline-config
+            defaultMode: 0777
+            items:
+              - key: service-conf
+                path: config.json
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ironfish-node-offline
+  namespace: kube-system
+
+spec:
+  ports:
+    - name: rpc-tls
+      port: 50750
+  selector:
+    app: ironfish-node-offline
