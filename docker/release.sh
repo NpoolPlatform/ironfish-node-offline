@@ -18,7 +18,7 @@ if [ "x" == "x$registry" ]; then
 fi
 
 sed -i "s/{{registry}}/$registry/g" $ROOT_PATH/k8s/02-ironfish-node-offline.yaml
-sed -i "s/{{VERSION}}/$version/g" $ROOT_PATH/k8s/02-ironfish-node-offline.yaml
+sed -i "s/{{version}}/$version/g" $ROOT_PATH/k8s/02-ironfish-node-offline.yaml
 
 user=`whoami`
 if [ "$user" == "root" ]; then

@@ -15,6 +15,7 @@ fi
 if [ "x" == "x$registry" ]; then
   registry="uhub.service.ucloud.cn/entropypool_private"
 fi
+sed -i "s/{{IRONFISH_VERSION}}/$version/g" $MY_PATH/Dockerfile
 
 user=`whoami`
 if [ "$user" == "root" ]; then
