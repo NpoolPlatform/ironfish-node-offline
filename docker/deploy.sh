@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 MY_PATH=$(cd `dirname $0`;pwd)
+ROOT_PATH=$(cd $MY_PATH/../;pwd)
 cd $MY_PATH
 
 set -o errexit
@@ -16,9 +17,12 @@ if [ "x" == "x$registry" ]; then
   registry="uhub.service.ucloud.cn/entropypool"
 fi
 
+sed -i "s/{{registry}}/$registry/g" $ROOT_PATH/k8s/02-ironfish-node-offline.yaml
+sed -i "s/{{version}}/$version/g" $ROOT_PATH/k8s/02-ironfish-node-offline.yaml
+
 user=`whoami`
 if [ "$user" == "root" ]; then
-    docker build -t $registry/$service_name:$version --build-arg IRONFISH_VERSION="$version" .
+    kubectl apply -k $ROOT_PATH/k8s/
 else
-    sudo docker build -t $registry/$service_name:$version --build-arg IRONFISH_VERSION="$version" .
+    sudo kubectl apply -k $ROOT_PATH/k8s/
 fi
