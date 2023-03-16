@@ -19,7 +19,7 @@ sed -i "s/{{IRONFISH_VERSION}}/$version/g" $MY_PATH/Dockerfile
 
 user=`whoami`
 if [ "$user" == "root" ]; then
-    docker build -t $registry/$service_name:$version --build-arg IRONFISH_VERSION="$version" .
+    docker build -t $registry/entropypool/$service_name:$version --build-arg IRONFISH_VERSION="$version" .
 else
-    sudo docker build -t $registry/$service_name:$version --build-arg IRONFISH_VERSION="$version" .
+    sudo docker build -t $registry/entropypool/$service_name:$version --build-arg IRONFISH_VERSION="$version" .
 fi
