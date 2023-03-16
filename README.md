@@ -8,5 +8,5 @@ jenkinsfile 中支持三个step：build、release、deploy，三个step控制变
 
 IRONFISH_VERSION：v0.1.70
 
-DOCKER_REGISTRY：uhub.service.ucloud.cn/entropypool_private、docker.io/orginazation_name
+DOCKER_REGISTRY：uhub.service.ucloud.cn/entropypool、docker.io/orginazation_name
 

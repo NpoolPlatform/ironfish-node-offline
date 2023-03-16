@@ -19,7 +19,7 @@ pipeline {
       }
 
       steps {
-        sh 'version=$IRONFISH_VERSION registry=$DOCKER_REGISTRY bash ./docker/build.sh'
+        sh 'VERSION=$IRONFISH_VERSION REGISTRY=$DOCKER_REGISTRY make build'
       }
     }
 
@@ -29,7 +29,7 @@ pipeline {
       }
 
       steps {
-        sh 'version=$IRONFISH_VERSION registry=$DOCKER_REGISTRY bash ./docker/release.sh'
+        sh 'VERSION=$IRONFISH_VERSION REGISTRY=$DOCKER_REGISTRY make release'
       }
     }
 
@@ -39,9 +39,7 @@ pipeline {
       }
 
       steps {
-        sh 'sed -i "s/{{registry}}/$DOCKER_REGISTRY/g" k8s/02-ironfish-node-offline.yaml'
-        sh 'sed -i "s/{{version}}/$IRONFISH_VERSION/g" k8s/02-ironfish-node-offline.yaml'
-        sh 'kubectl apply -k k8s/'
+        sh 'VERSION=$IRONFISH_VERSION REGISTRY=$DOCKER_REGISTRY make deploy'
       }
     }
 

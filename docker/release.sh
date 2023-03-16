@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-MY_PATH=$(cd `basename $0`;pwd)
+MY_PATH=$(cd `dirname $0`;pwd)
 cd $MY_PATH
 
 set -o errexit
@@ -13,7 +13,7 @@ if [ "x" == "x$version" ]; then
 fi
 
 if [ "x" == "x$registry" ]; then
-  registry="uhub.service.ucloud.cn/entropypool_private"
+  registry="uhub.service.ucloud.cn/entropypool"
 fi
 
 user=`whoami`
