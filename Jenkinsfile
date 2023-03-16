@@ -13,12 +13,34 @@ pipeline {
       }
     }
 
+    stage('Build ') {
+      when {
+        expression { BUILD_TARGET == 'true' }
+      }
+
+      steps {
+        sh 'version=$IRONFISH_VERSION registry=$DOCKER_REGISTRY bash ./docker/build.sh'
+      }
+    }
+
+     stage('Release ') {
+      when {
+        expression { RELEASE_TARGET == 'true' }
+      }
+
+      steps {
+        sh 'version=$IRONFISH_VERSION registry=$DOCKER_REGISTRY bash ./docker/release.sh'
+      }
+    }
+
     stage('Deploy ') {
       when {
         expression { DEPLOY_TARGET == 'true' }
       }
 
       steps {
+        sh 'sed -i "s/{{registry}}/$DOCKER_REGISTRY/g" k8s/02-ironfish-node-offline.yaml'
+        sh 'sed -i "s/{{version}}/$IRONFISH_VERSION/g" k8s/02-ironfish-node-offline.yaml'
         sh 'kubectl apply -k k8s/'
       }
     }
