@@ -13,13 +13,13 @@ if [ "x" == "x$version" ]; then
 fi
 
 if [ "x" == "x$registry" ]; then
-  registry="uhub.service.ucloud.cn/entropypool"
+  registry="uhub.service.ucloud.cn"
 fi
 sed -i "s/{{IRONFISH_VERSION}}/$version/g" $MY_PATH/Dockerfile
 
 user=`whoami`
 if [ "$user" == "root" ]; then
-    docker build -t $registry/$service_name:$version  .
+    docker build -t $registry/entropypool/$service_name:$version  .
 else
-    sudo docker build -t $registry/$service_name:$version  .
+    sudo docker build -t $registry/entropypool/$service_name:$version  .
 fi

@@ -13,12 +13,12 @@ if [ "x" == "x$version" ]; then
 fi
 
 if [ "x" == "x$registry" ]; then
-  registry="uhub.service.ucloud.cn/entropypool"
+  registry="uhub.service.ucloud.cn"
 fi
 
 user=`whoami`
 if [ "$user" == "root" ]; then
-    docker push $registry/$service_name:$version
+    docker push $registry/entropypool/$service_name:$version
 else
-    sudo docker push $registry/$service_name:$version
+    sudo docker push $registry/entropypool/$service_name:$version
 fi

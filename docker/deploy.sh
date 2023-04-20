@@ -14,7 +14,7 @@ if [ "x" == "x$version" ]; then
 fi
 
 if [ "x" == "x$registry" ]; then
-  registry="uhub.service.ucloud.cn/entropypool"
+  registry="uhub.service.ucloud.cn"
 fi
 
 sed -i "s#{{registry}}#$registry#g" $ROOT_PATH/k8s/02-ironfish-node-offline.yaml
