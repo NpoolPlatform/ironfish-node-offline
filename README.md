@@ -1,12 +1,20 @@
 # ironfish-node-offline
 
-jenkinsfile 中支持三个step：build、release、deploy，三个step控制变量分别为BUILD_TARGET、RELEASE_TARGET、DEPLOY_TARGET（设置为true触发step）
+jenkinsfile 中有三个step：build -> release -> deploy （每次改动最好按照build release deploy的顺序依次执行进行部署）
 
-三个step都支持两个参数IRONFISH_VERSION、DOCKER_REGISTRY
+jenkinsfile 为项目打Tag，支持以下变量
 
-参数可选范围如下，其中第一个为默认值，当给空值时会自动使用默认值
+```text
+        anyOf{
+          expression { TAG_MAJOR == 'true' }
+          expression { TAG_MINOR == 'true' }
+          expression { TAG_PATCH == 'true' }
+        }
+        anyOf{
+          expression { TAG_FOR == 'test' }
+          expression { TAG_FOR == 'prod' }
+        }
+```
 
-IRONFISH_VERSION：v0.1.70
-
-DOCKER_REGISTRY：uhub.service.ucloud.cn/entropypool、docker.io/orginazation_name
+uhub.service.ucloud.cn/entropypool/ironfish@v0.1.70
 

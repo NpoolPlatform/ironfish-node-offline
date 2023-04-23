@@ -6,20 +6,9 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-service_name=ironfish
-## For development environment, pass the second variable
-if [ "x" == "x$version" ]; then
-  version="v0.1.70"
-fi
-
-if [ "x" == "x$registry" ]; then
-  registry="uhub.service.ucloud.cn"
-fi
-sed -i "s/{{IRONFISH_VERSION}}/$version/g" $MY_PATH/Dockerfile
-
 user=`whoami`
 if [ "$user" == "root" ]; then
-    docker build -t $registry/entropypool/$service_name:$version  .
+    docker build -t uhub.service.ucloud.cn/entropypool/ironfish:v1.0.1 .
 else
-    sudo docker build -t $registry/entropypool/$service_name:$version  .
+    sudo docker build -t uhub.service.ucloud.cn/entropypool/ironfish:v1.0.1  .
 fi

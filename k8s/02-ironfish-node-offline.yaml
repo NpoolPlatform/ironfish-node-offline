@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: ironfish-node-offline
-          image: {{registry}}/entropypool/ironfish:{{version}}
+          image: uhub.service.ucloud.cn/entropypool/ironfish:v1.0.1
           imagePullPolicy: Always
           volumeMounts:
             - name: service-config

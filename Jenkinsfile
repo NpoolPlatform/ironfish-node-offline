@@ -20,7 +20,7 @@ pipeline {
       }
 
       steps {
-        sh 'VERSION=$IRONFISH_VERSION REGISTRY=$DOCKER_REGISTRY make build'
+        sh 'make build'
       }
     }
 
@@ -30,7 +30,7 @@ pipeline {
       }
 
       steps {
-        sh 'VERSION=$IRONFISH_VERSION REGISTRY=$DOCKER_REGISTRY make release'
+        sh 'make release'
       }
     }
 
@@ -40,10 +40,70 @@ pipeline {
       }
 
       steps {
-        sh 'VERSION=$IRONFISH_VERSION REGISTRY=$DOCKER_REGISTRY make deploy'
+        sh 'make deploy'
       }
     }
 
+    stage('Tag') {
+      when {
+        anyOf{
+          expression { TAG_MAJOR == 'true' }
+          expression { TAG_MINOR == 'true' }
+          expression { TAG_PATCH == 'true' }
+        }
+        anyOf{
+          expression { TAG_FOR == 'test' }
+          expression { TAG_FOR == 'prod' }
+        }
+      }
+      steps {
+        sh(returnStdout: true, script: '''
+          set +e
+          // sync remote tags
+          git tag -l | xargs git tag -d
+          git fetch origin --prune
+          // get last tag
+          revlist=`git rev-list --tags --max-count=1`
+          rc=$?
+          set -e
+          major=0
+          minor=0
+          patch=-1
+          
+          if [ 0 -eq $rc ]; then
+            tag=`git describe --tags $revlist`
+            major=`echo $tag | awk -F '.' '{ print $1 }'`
+            minor=`echo $tag | awk -F '.' '{ print $2 }'`
+            patch=`echo $tag | awk -F '.' '{ print $3 }'`
+          fi
+          if [ "$TAG_MAJOR" == 'true' ]; then
+            major=$(( $major + 1 ))
+            minor=0
+            patch=-1
+          elif [ "$TAG_MINOR" == 'true' ]; then
+            minor=$(( $minor + 1 ))
+            patch=-1
+          fi    
+          case $TAG_FOR in
+            test)
+              patch=$(( $patch + $patch % 2 + 1 ))
+              ;;
+            prod)
+              patch=$(( $patch + ( $patch +  1 ) % 2 + 1 ))
+              git reset --hard
+              git checkout $tag
+              ;;
+          esac
+          tag=$major.$minor.$patch
+          
+          git tag -a $tag -m "Bump version to $tag"
+        '''.stripIndent())
+
+        withCredentials([gitUsernamePassword(credentialsId: 'jiangjie-git-username-passwd', gitToolName: 'git-tool')]) {
+          sh 'git push --tag'
+        }
+      }
+    }
   }
 
   post('Report') {
