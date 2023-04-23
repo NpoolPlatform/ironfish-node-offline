@@ -99,7 +99,7 @@ pipeline {
           git tag -a $tag -m "Bump version to $tag"
         '''.stripIndent())
 
-        withCredentials([gitUsernamePassword(credentialsId: 'jiangjie-git-username-passwd', gitToolName: 'git-tool')]) {
+        withCredentials([gitUsernamePassword(credentialsId: 'KK-github-key', gitToolName: 'git-tool')]) {
           sh 'git push --tag'
         }
       }
