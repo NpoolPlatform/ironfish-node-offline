@@ -11,8 +11,8 @@ jenkinsfile 为项目打Tag，支持以下变量
           expression { TAG_PATCH == 'true' }
         }
         anyOf{
-          expression { TAG_FOR == 'test' }
-          expression { TAG_FOR == 'prod' }
+          expression { TAG_FOR == 'testing' }
+          expression { TAG_FOR == 'production' }
         }
 ```
 
