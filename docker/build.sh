@@ -8,7 +8,7 @@ set -o pipefail
 
 user=`whoami`
 if [ "$user" == "root" ]; then
-    docker build -t uhub.service.ucloud.cn/entropypool/ironfish:v1.5.0 .
+    docker build -t uhub.service.ucloud.cn/entropypool/ironfish:v1.9.0 .
 else
-    sudo docker build -t uhub.service.ucloud.cn/entropypool/ironfish:v1.5.0  .
+    sudo docker build -t uhub.service.ucloud.cn/entropypool/ironfish:v1.9.0  .
 fi
