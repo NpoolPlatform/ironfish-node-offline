@@ -2,7 +2,7 @@ pipeline {
   agent any
   environment {
     GOPROXY = 'https://goproxy.cn,direct'
-    IRONFISH_VERSION = "v1.9.0"
+    IRONFISH_VERSION = "v2.1.0"
   }
   tools {
     go 'go'
