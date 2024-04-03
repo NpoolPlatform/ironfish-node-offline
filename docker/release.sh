@@ -8,7 +8,7 @@ set -o pipefail
 
 user=`whoami`
 if [ "$user" == "root" ]; then
-    docker push uhub.service.ucloud.cn/entropypool/ironfish:v1.9.0
+    docker push uhub.service.ucloud.cn/entropypool/ironfish:v2.1.0
 else
-    sudo docker uhub.service.ucloud.cn/entropypool/ironfish:v1.9.0
+    sudo docker uhub.service.ucloud.cn/entropypool/ironfish:v2.1.0
 fi
